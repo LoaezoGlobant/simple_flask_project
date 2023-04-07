@@ -11,6 +11,7 @@ services:
   
   mysql_db:
     image: mysql_db
+    container_name: "books_reviews"
     environment:
       - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=base
+      - MYSQL_DATABASE=reviews

@@ -1,5 +1,5 @@
 FROM python:3.8-slim
-WORKDIR /code
+WORKDIR /src
 RUN python3 -m pip install --upgrade pip
 ENV FLASK_APP=app.py
 COPY ./requirements.txt .

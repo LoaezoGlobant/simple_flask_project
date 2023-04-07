@@ -10,12 +10,15 @@ services:
       - mysql_db
     links:
       - "mysql_db:db"
+    volumes:
+      -./app:./src
   
   mysql_db:
-    image: mysql_db
+    image: 
+    container_name: "books_reviews"
     environment:
       - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=base
+      - MYSQL_DATABASE=reviews
 
 volumes:
   flask_proj:
