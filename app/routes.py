@@ -12,6 +12,7 @@ def get_users() -> str:
 @users_bp.route("/<int:user_id>", methods=["GET"])
 def get_user(user_id: int) -> str:
     user = User.query.get(user_id)
+    breakpoint()
     return jsonify(user.to_dict())
 
 @users_bp.route("/", methods=["POST"])

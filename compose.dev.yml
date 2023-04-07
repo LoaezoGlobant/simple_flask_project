@@ -5,20 +5,29 @@ services:
       dockerfile: Dockerfile.dev
     container_name: "my_app"
     ports:
-      - "5000:5000"
+      - "80:5000"
     depends_on:
       - mysql_db
     links:
       - "mysql_db:db"
     volumes:
-      -./app:./src
-  
+      - .:/src
+
   mysql_db:
-    image: 
+    image: mysql
     container_name: "books_reviews"
     environment:
       - MYSQL_ROOT_PASSWORD=toor
       - MYSQL_DATABASE=reviews
 
+  mysql_db_out:
+    image: mysql
+    container_name: "books_reviews_out"
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_DATABASE=reviews
+    ports:
+      - "3306:3306"
+
 volumes:
-  flask_proj:
+  app:
