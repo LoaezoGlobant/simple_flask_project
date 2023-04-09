@@ -1,21 +1,13 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    container_name: "my_app"
-    ports:
-      - "80:5000"
-    depends_on:
-      - mysql_db
-    links:
-      - "mysql_db:db"
-    volumes:
-      - .:/src
-
   mysql_db:
     image: mysql
     container_name: "books_reviews"
+    healthcheck:
+      test: ["CMD", "mysql", "-ptoor", "-e", "SELECT 1 FROM user", "reviews"]
+      interval: 1s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
     environment:
       - MYSQL_ROOT_PASSWORD=toor
       - MYSQL_DATABASE=reviews
@@ -28,6 +20,24 @@ services:
       - MYSQL_DATABASE=reviews
     ports:
       - "3306:3306"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    container_name: "my_app"
+    ports:
+      - "80:5000"
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+      mysql_db_out:
+        condition: service_started
+    links:
+      - "mysql_db:db"
+    volumes:
+      - .:/src
 
 volumes:
   app:

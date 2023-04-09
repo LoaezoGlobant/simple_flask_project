@@ -15,7 +15,9 @@ def create_app():
     from app.routes import users_bp
     app.register_blueprint(blueprint=users_bp)
 
-    with app.app_context():
-        db.create_all()
+    @app.before_first_request
+    def create_tables():
+        with app.app_context():
+            db.create_all()
     
     return app
