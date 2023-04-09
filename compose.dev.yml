@@ -12,15 +12,6 @@ services:
       - MYSQL_ROOT_PASSWORD=toor
       - MYSQL_DATABASE=reviews
 
-  mysql_db_out:
-    image: mysql
-    container_name: "books_reviews_out"
-    environment:
-      - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=reviews
-    ports:
-      - "3306:3306"
-
   app:
     build:
       context: .
@@ -32,8 +23,6 @@ services:
     depends_on:
       mysql_db:
         condition: service_healthy
-      mysql_db_out:
-        condition: service_started
     links:
       - "mysql_db:db"
     volumes:

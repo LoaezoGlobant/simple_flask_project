@@ -21,7 +21,7 @@ def create_user() -> str:
     user = User(username=data["username"], email=data["email"])
     db.session.add(user)
     db.session.commit()
-    return jsonify(user.to_dict()), 201
+    return {"message": f"User {user.username} with email {user.email} has been successfully created"}
 
 @users_bp.route("/<int:user_id>", methods=["PUT"])
 def update_user(user_id: int) -> str:
